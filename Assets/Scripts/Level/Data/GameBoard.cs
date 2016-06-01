@@ -75,5 +75,45 @@ namespace Modetocode.Swiper.Level.Data {
 
             this.Tiles[slot.RowIndex][slot.ColumnIndex] = tile;
         }
+
+        public void UnassignTileFromSlot(Slot slot) {
+            if (slot == null) {
+                throw new ArgumentNullException("slot");
+            }
+
+            Tile unassignedTile = this.Tiles[slot.RowIndex][slot.ColumnIndex];
+            this.Tiles[slot.RowIndex][slot.ColumnIndex] = null;
+            this.UnassignedTiles.Add(unassignedTile);
+        }
+
+        public void RemoveTileFromSlot(Slot slot) {
+            if (slot == null) {
+                throw new ArgumentNullException("slot");
+            }
+
+            Tile removedTile = this.Tiles[slot.RowIndex][slot.ColumnIndex];
+            this.Tiles[slot.RowIndex][slot.ColumnIndex] = null;
+            removedTile.DeleteTile();
+        }
+
+        public Slot GetSlotForTile(Tile tile) {
+            if (tile == null) {
+                throw new ArgumentNullException("tile");
+            }
+
+            for (int i = 0; i < this.RowCount; i++) {
+                for (int j = 0; j < this.ColumnCount; j++) {
+                    if (this.Tiles[i][j] == null) {
+                        continue;
+                    }
+
+                    if (this.Tiles[i][j].Equals(tile)) {
+                        return new Slot(i, j);
+                    }
+                }
+            }
+
+            return null;
+        }
     }
 }

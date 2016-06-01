@@ -31,6 +31,8 @@ namespace Modetocode.Swiper.Level.Components {
             }
 
             this.Tile = tile;
+            this.Tile.TileRemoved += DestroyComponent;
+            this.SetTilePosition();
             this.SetTileSprite();
         }
 
@@ -39,7 +41,20 @@ namespace Modetocode.Swiper.Level.Components {
                 return;
             }
 
-            this.transform.position = this.Tile.Position;
+            this.SetTilePosition();
+        }
+
+        public void Destroy() {
+            if (this.Tile == null) {
+                return;
+            }
+
+            this.Tile.TileRemoved -= DestroyComponent;
+        }
+
+        private void DestroyComponent() {
+            this.Tile.TileRemoved -= DestroyComponent;
+            Destroy(this.gameObject);
         }
 
         private void SetTileSprite() {
@@ -66,6 +81,10 @@ namespace Modetocode.Swiper.Level.Components {
             }
 
             this.spriteRenderer.sprite = sprite;
+        }
+
+        private void SetTilePosition() {
+            this.transform.position = this.Tile.Position;
         }
     }
 }

@@ -44,12 +44,25 @@ namespace Modetocode.Swiper.Util {
                         continue;
                     }
 
-                    Tile newTile = GenerateRandomTile(gameBoard.AvailableTileTypes, tileSlot);
-                    Vector2 startTilePosition = GetTilePositionForSlot(new Slot(nextRowSpawnYSlot[i], j), gameBoard);
+                    Tile assignedTile = GetFirstAvailableUpperTile(gameBoard, tileSlot);
+                    Slot startingPositionSlot;
+                    if (assignedTile == null) {
+                        assignedTile = GenerateRandomTile(gameBoard.AvailableTileTypes, tileSlot);
+                        startingPositionSlot = new Slot(nextRowSpawnYSlot[i]--, j);
+                    }
+                    else {
+                        startingPositionSlot = gameBoard.GetSlotForTile(assignedTile);
+                        if (startingPositionSlot == null) {
+                            throw new InvalidOperationException("The tile has to be on the game board.");
+                        }
+
+                        gameBoard.UnassignTileFromSlot(startingPositionSlot);
+                    }
+
+                    Vector2 startTilePosition = GetTilePositionForSlot(startingPositionSlot, gameBoard);
                     Vector2 endTilePosition = GetTilePositionForSlot(tileSlot, gameBoard);
-                    nextRowSpawnYSlot[i]--;
                     Action onMovementFinishedAction = () => {
-                        gameBoard.AssignTileToSlot(newTile, tileSlot);
+                        gameBoard.AssignTileToSlot(assignedTile, tileSlot);
                     };
 
                     ObjectAnimator.Instance.AddObjectAnimation(
@@ -57,12 +70,21 @@ namespace Modetocode.Swiper.Util {
                         endPosition: endTilePosition,
                         durationInSeconds: Constants.Animation.TileMoveAnimationDurationInSeconds,
                         onPositionReachedAction: onMovementFinishedAction,
-                        positionableObject: newTile);
-                    gameBoard.AddTile(newTile);
+                        positionableObject: assignedTile);
+                    gameBoard.AddTile(assignedTile);
                 }
             }
         }
 
+        private static Tile GetFirstAvailableUpperTile(GameBoard gameBoard, Slot slot) {
+            for (int i = slot.RowIndex - 1; i >= 0; i--) {
+                if (gameBoard.HasTileForSlot(new Slot(i, slot.ColumnIndex))) {
+                    return gameBoard.Tiles[i][slot.ColumnIndex];
+                }
+            }
+
+            return null;
+        }
 
         private static Tile GenerateRandomTile(IList<TileType> availableTileTypes, Slot slot) {
             TileType randomTileType = availableTileTypes[UnityEngine.Random.Range(0, availableTileTypes.Count)];
