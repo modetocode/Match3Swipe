@@ -10,6 +10,8 @@ namespace Modetocode.Swiper.Level.Components {
 
         [SerializeField]
         private InstantiatorComponent instantiatorComponent;
+        [SerializeField]
+        private InputComponent inputComponent;
 
         private LevelRunManager LevelRunManager { get; set; }
 
