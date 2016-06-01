@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 408410}
+  - 212: {fileID: 21282934}
+  m_Layer: 0
+  m_Name: Model
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &143220
 GameObject:
   m_ObjectHideFlags: 0
@@ -8,8 +24,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 431022}
-  - 212: {fileID: 21208518}
   - 61: {fileID: 6116288}
+  - 114: {fileID: 11458198}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -17,6 +33,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &408410
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100982}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 431022}
+  m_RootOrder: 0
 --- !u!4 &431022
 Transform:
   m_ObjectHideFlags: 1
@@ -24,9 +52,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 143220}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 408410}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!61 &6116288
@@ -43,12 +72,29 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 3.44, y: 3.44}
---- !u!212 &21208518
-SpriteRenderer:
+--- !u!114 &11458198
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 143220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18db275745668c640a316e55ea547812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 21282934}
+  amberSprite: {fileID: 21300000, guid: 12aa77e821c712245b380b55e4967469, type: 3}
+  emeraldSprite: {fileID: 21300000, guid: 7c3bd48485370f84e826e9e397ef7de9, type: 3}
+  prismSprite: {fileID: 21300000, guid: a3e7e75edeac21646bd4e72f97e284a0, type: 3}
+  rubySprite: {fileID: 21300000, guid: e59e65d77c7ebb94a8d1931fbb4a2eb3, type: 3}
+  sapphireSprite: {fileID: 21300000, guid: 0bf44055b138d1f478448576d1a41ac4, type: 3}
+--- !u!212 &21282934
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100982}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0

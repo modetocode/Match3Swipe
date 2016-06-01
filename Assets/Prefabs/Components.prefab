@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 484450}
   - 114: {fileID: 11478904}
+  - 114: {fileID: 11427678}
   m_Layer: 0
   m_Name: Components
   m_TagString: Untagged
@@ -28,6 +29,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11427678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 150326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1826099ec585a6f459a0bdfc68a141e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileComponentTemplate: {fileID: 11458198, guid: 983055c26aef2564b8fee7c66eb9c3d6,
+    type: 2}
 --- !u!114 &11478904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -39,6 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5471a50b22474f6498a1b5242898bd4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instantiatorComponent: {fileID: 11427678}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

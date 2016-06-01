@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Modetocode.Swiper.Level.Data {
 
@@ -7,13 +8,27 @@ namespace Modetocode.Swiper.Level.Data {
     /// </summary>
     public class GameBoard {
 
-        private int ColumnCount { get; set; }
-        private int RowCount { get; set; }
-        private IList<TileType> AvailableTileTypes { get; set; }
-        private IList<IList<Tile>> Tiles { get; set; }
+        public event Action<Tile> TileAdded;
+
+        public int ColumnCount { get; private set; }
+        public int RowCount { get; private set; }
+        public IList<TileType> AvailableTileTypes { get; private set; }
+        public IList<IList<Tile>> Tiles { get; private set; }
+        private IList<Tile> UnassignedTiles { get; set; }
 
         public GameBoard(int rowCount, int columnCount, IList<TileType> availableTileTypes) {
-            //TODO arg check
+            if (rowCount <= 0) {
+                throw new ArgumentOutOfRangeException("rowCount", "Cannot be zero or less.");
+            }
+
+            if (columnCount <= 0) {
+                throw new ArgumentOutOfRangeException("columnCount", "Cannot be zero or less.");
+            }
+
+            if (availableTileTypes == null) {
+                throw new ArgumentNullException("availableTileTypes");
+            }
+
             this.RowCount = rowCount;
             this.ColumnCount = columnCount;
             this.AvailableTileTypes = availableTileTypes;
@@ -21,6 +36,44 @@ namespace Modetocode.Swiper.Level.Data {
             for (int i = 0; i < this.ColumnCount; i++) {
                 this.Tiles[i] = new Tile[this.ColumnCount];
             }
+
+            this.UnassignedTiles = new List<Tile>();
+        }
+
+        public bool HasTileForSlot(Slot slot) {
+            if (slot == null) {
+                throw new ArgumentNullException("slot");
+            }
+
+            //TODO there are also tiles that are still not set on the slot
+            return this.Tiles[slot.RowIndex][slot.ColumnIndex] != null;
+        }
+
+        public void AddTile(Tile tile) {
+            if (tile == null) {
+                throw new ArgumentNullException("tile");
+            }
+
+            this.UnassignedTiles.Add(tile);
+            if (this.TileAdded != null) {
+                this.TileAdded(tile);
+            }
+        }
+
+        public void AssignTileToSlot(Tile tile, Slot slot) {
+            if (tile == null) {
+                throw new ArgumentNullException("tile");
+            }
+
+            if (slot == null) {
+                throw new ArgumentNullException("slot");
+            }
+
+            if (!this.UnassignedTiles.Contains(tile)) {
+                throw new InvalidOperationException("The tile wasn't previously added");
+            }
+
+            this.Tiles[slot.RowIndex][slot.ColumnIndex] = tile;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Modetocode.Swiper.Level.Data;
+﻿using Modetocode.Swiper.Animations;
+using Modetocode.Swiper.Level.Data;
 using Modetocode.Swiper.Util;
 
 namespace Modetocode.Swiper.Level {
@@ -15,7 +16,12 @@ namespace Modetocode.Swiper.Level {
             //TODO give the appropriate data for creation of game board
             GameBoard gameBoard = GameBoardManager.CreateGameBoard(rowCount: 7, columnCount: 7, availableTileTypes: new TileType[] { TileType.Amber, TileType.Emerald, TileType.Prism });
             this.LevelRunModel = new LevelRunModel(gameBoard);
-            this.Ticker = new Ticker(new ITickable[] { });
+            this.Ticker = new Ticker(new ITickable[] { ObjectAnimator.Instance });
+
+        }
+
+        public void Start() {
+            GameBoardManager.FillAndAnimateBoard(this.LevelRunModel.GameBoard);
         }
 
         public void Tick(float deltaTime) {
