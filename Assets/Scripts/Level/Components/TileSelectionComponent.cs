@@ -31,7 +31,7 @@ namespace Modetocode.Swiper.Level.Components {
         private void AddTileConnection(Tile tile) {
             int numberOfNodes = this.tileSelection.TileSequence.Count;
             this.lineRenderer.SetVertexCount(numberOfNodes);
-            this.lineRenderer.SetPosition(numberOfNodes - 1, tile.Position);
+            this.lineRenderer.SetPosition(numberOfNodes - 1, new Vector3(tile.Position.x, tile.Position.y, this.transform.position.z));
         }
 
         private void ResetTileConnections() {
