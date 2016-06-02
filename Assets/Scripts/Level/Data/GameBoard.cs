@@ -92,8 +92,19 @@ namespace Modetocode.Swiper.Level.Data {
             }
 
             Tile removedTile = this.Tiles[slot.RowIndex][slot.ColumnIndex];
-            this.Tiles[slot.RowIndex][slot.ColumnIndex] = null;
-            removedTile.DeleteTile();
+            if (removedTile != null) {
+                this.Tiles[slot.RowIndex][slot.ColumnIndex] = null;
+                removedTile.DeleteTile();
+            }
+
+            for (int i = 0; i < this.UnassignedTiles.Count; i++) {
+                Tile currentTile = this.UnassignedTiles[i];
+                if (currentTile.AssignedSlot.Equals(slot)) {
+                    this.UnassignedTiles.RemoveAt(i);
+                    currentTile.DeleteTile();
+                    break;
+                }
+            }
         }
 
         public Slot GetSlotForTile(Tile tile) {

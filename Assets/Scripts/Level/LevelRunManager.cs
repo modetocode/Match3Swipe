@@ -1,6 +1,8 @@
 ﻿using Modetocode.Swiper.Animations;
 using Modetocode.Swiper.Level.Data;
 using Modetocode.Swiper.Util;
+using System;
+using System.Collections.Generic;
 
 namespace Modetocode.Swiper.Level {
 
@@ -24,25 +26,31 @@ namespace Modetocode.Swiper.Level {
             GameBoardManager.FillAndAnimateBoard(this.LevelRunModel.GameBoard);
         }
 
-        //TODO remove this when input is done and matches can be made - this is for testing purposes
-        int numberOfTicks = 0;
-
         public void Tick(float deltaTime) {
             this.Ticker.Tick(deltaTime);
+        }
 
-            //TODO remove this when input is done and matches can be made - this is for testing purposes 
-            numberOfTicks++;
-            if (numberOfTicks == 100) {
-                this.LevelRunModel.GameBoard.RemoveTileFromSlot(new Slot(2, 2));
-                this.LevelRunModel.GameBoard.RemoveTileFromSlot(new Slot(3, 2));
-                this.LevelRunModel.GameBoard.RemoveTileFromSlot(new Slot(5, 2));
-                this.LevelRunModel.GameBoard.RemoveTileFromSlot(new Slot(5, 3));
-                for (int j = 0; j < this.LevelRunModel.GameBoard.ColumnCount; j++) {
-                    this.LevelRunModel.GameBoard.RemoveTileFromSlot(new Slot(j, 0));
-                }
-
-                GameBoardManager.FillAndAnimateBoard(this.LevelRunModel.GameBoard);
+        public void ProcessTileForSelection(Tile tile) {
+            if (tile == null) {
+                throw new ArgumentNullException("tile");
             }
+
+            TileSelection selection = this.LevelRunModel.TileSelection;
+            selection.ProcessNextTileForSelection(tile);
+        }
+
+        public void FinishSelection() {
+            TileSelection selection = this.LevelRunModel.TileSelection;
+            IList<Tile> tilesToBeRemoved = selection.FinishSelection();
+            if (tilesToBeRemoved.Count == 0) {
+                return;
+            }
+
+            for (int i = 0; i < tilesToBeRemoved.Count; i++) {
+                this.LevelRunModel.GameBoard.RemoveTileFromSlot(tilesToBeRemoved[i].AssignedSlot);
+            }
+
+            GameBoardManager.FillAndAnimateBoard(this.LevelRunModel.GameBoard);
         }
 
         public void OnTickingFinished() {

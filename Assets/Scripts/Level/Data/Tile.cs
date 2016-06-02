@@ -12,9 +12,15 @@ namespace Modetocode.Swiper.Level.Data {
 
         public TileType TileType { get; private set; }
         public Vector2 Position { get; set; }
+        public Slot AssignedSlot { get; set; }
 
-        public Tile(TileType tileType) {
+        public Tile(TileType tileType, Slot assignedSlot) {
+            if (assignedSlot == null) {
+                throw new ArgumentNullException("assignedSlot");
+            }
+
             this.TileType = tileType;
+            this.AssignedSlot = assignedSlot;
         }
 
         public void DeleteTile() {

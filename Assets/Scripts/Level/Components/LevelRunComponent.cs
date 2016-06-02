@@ -12,13 +12,21 @@ namespace Modetocode.Swiper.Level.Components {
         private InstantiatorComponent instantiatorComponent;
         [SerializeField]
         private InputComponent inputComponent;
+        [SerializeField]
+        private TileSelectionComponent tileSelectionComponent;
 
         private LevelRunManager LevelRunManager { get; set; }
+        private bool touchInProgress { get; set; }
 
         public void Start() {
             this.LevelRunManager = new LevelRunManager();
             this.LevelRunManager.LevelRunModel.GameBoard.TileAdded += InstantiateTile;
+            this.touchInProgress = false;
             this.LevelRunManager.Start();
+            this.inputComponent.TouchStarted += StartTouch;
+            this.inputComponent.TouchEnded += EndTouch;
+            this.inputComponent.TouchHit += OnTouchHit;
+            this.tileSelectionComponent.Initialize(this.LevelRunManager.LevelRunModel.TileSelection);
         }
 
         private void InstantiateTile(Tile newTile) {
@@ -31,6 +39,28 @@ namespace Modetocode.Swiper.Level.Components {
 
         public void Destroy() {
             this.LevelRunManager.LevelRunModel.GameBoard.TileAdded -= InstantiateTile;
+            this.inputComponent.TouchStarted -= StartTouch;
+            this.inputComponent.TouchEnded -= EndTouch;
+            this.inputComponent.TouchHit -= OnTouchHit;
         }
+
+        private void StartTouch() {
+            this.touchInProgress = true;
+        }
+
+        private void EndTouch() {
+            this.touchInProgress = false;
+            this.LevelRunManager.FinishSelection();
+        }
+
+        private void OnTouchHit(GameObject gameObject) {
+            TileComponent tileComponent = gameObject.GetComponent<TileComponent>();
+            if (tileComponent == null) {
+                return;
+            }
+
+            this.LevelRunManager.ProcessTileForSelection(tileComponent.Tile);
+        }
+
     }
 }

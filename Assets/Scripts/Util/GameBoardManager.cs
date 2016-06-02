@@ -57,6 +57,7 @@ namespace Modetocode.Swiper.Util {
                         }
 
                         gameBoard.UnassignTileFromSlot(startingPositionSlot);
+                        assignedTile.AssignedSlot = tileSlot;
                     }
 
                     Vector2 startTilePosition = GetTilePositionForSlot(startingPositionSlot, gameBoard);
@@ -88,7 +89,7 @@ namespace Modetocode.Swiper.Util {
 
         private static Tile GenerateRandomTile(IList<TileType> availableTileTypes, Slot slot) {
             TileType randomTileType = availableTileTypes[UnityEngine.Random.Range(0, availableTileTypes.Count)];
-            return new Tile(randomTileType);
+            return new Tile(randomTileType, slot);
         }
 
         private static Vector2 GetTilePositionForSlot(Slot tileSlot, GameBoard gameBoard) {

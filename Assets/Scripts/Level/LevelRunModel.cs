@@ -8,10 +8,12 @@ namespace Modetocode.Swiper.Level {
     public class LevelRunModel {
 
         public GameBoard GameBoard { get; private set; }
+        public TileSelection TileSelection { get; private set; }
 
         public LevelRunModel(GameBoard gameBoard) {
             //TODO arg check
             this.GameBoard = gameBoard;
+            this.TileSelection = new TileSelection();
         }
     }
 }
