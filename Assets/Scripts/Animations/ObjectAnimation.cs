@@ -30,7 +30,10 @@ namespace Modetocode.Swiper.Animations {
             spentTime += deltaTime;
             if (spentTime >= this.DurationInSeconds) {
                 this.hasFinished = true;
-                this.OnAnimationFinishedAction();
+                if (this.OnAnimationFinishedAction != null) {
+                    this.OnAnimationFinishedAction();
+                }
+
                 this.OnAnimationFinished();
                 if (this.AnimationFinised != null) {
                     this.AnimationFinised(this);
@@ -43,17 +46,13 @@ namespace Modetocode.Swiper.Animations {
         public abstract void OnTickingFinished();
         public abstract void OnAnimationFinished();
 
-        protected ObjectAnimation(Vector2 startPosition, Vector2 endPosition, float durationInSeconds, IPositionableObject objectToAnimate, Action onAnimationFinishedAction) {
+        protected ObjectAnimation(Vector2 startPosition, Vector2 endPosition, float durationInSeconds, IPositionableObject objectToAnimate, Action onAnimationFinishedAction = null) {
             if (durationInSeconds <= 0) {
                 throw new ArgumentOutOfRangeException("durationInSeconds", "Cannot be zero or less");
             }
 
             if (objectToAnimate == null) {
                 throw new ArgumentNullException("objectToAnimate");
-            }
-
-            if (onAnimationFinishedAction == null) {
-                throw new ArgumentNullException("onAnimationFinishedAction");
             }
 
             this.StartPositon = startPosition;

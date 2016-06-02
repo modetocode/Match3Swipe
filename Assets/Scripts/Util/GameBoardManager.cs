@@ -48,32 +48,46 @@ namespace Modetocode.Swiper.Util {
                     Slot startingPositionSlot;
                     if (assignedTile == null) {
                         assignedTile = GenerateRandomTile(gameBoard.AvailableTileTypes, tileSlot);
-                        startingPositionSlot = new Slot(nextRowSpawnYSlot[i]--, j);
+                        startingPositionSlot = new Slot(nextRowSpawnYSlot[j]--, j);
                     }
                     else {
-                        startingPositionSlot = gameBoard.GetSlotForTile(assignedTile);
+                        startingPositionSlot = assignedTile.AssignedSlot;
                         if (startingPositionSlot == null) {
                             throw new InvalidOperationException("The tile has to be on the game board.");
                         }
 
-                        gameBoard.UnassignTileFromSlot(startingPositionSlot);
+                        gameBoard.RemoveTileFromSlot(startingPositionSlot, false);
                         assignedTile.AssignedSlot = tileSlot;
                     }
 
                     Vector2 startTilePosition = GetTilePositionForSlot(startingPositionSlot, gameBoard);
                     Vector2 endTilePosition = GetTilePositionForSlot(tileSlot, gameBoard);
-                    Action onMovementFinishedAction = () => {
-                        gameBoard.AssignTileToSlot(assignedTile, tileSlot);
-                    };
 
                     ObjectAnimator.Instance.AddObjectAnimation(
                         startPosition: startTilePosition,
                         endPosition: endTilePosition,
                         durationInSeconds: Constants.Animation.TileMoveAnimationDurationInSeconds,
-                        onPositionReachedAction: onMovementFinishedAction,
                         positionableObject: assignedTile);
                     gameBoard.AddTile(assignedTile);
                 }
+            }
+        }
+
+        public static void RemoveTilesFromBoard(GameBoard gameBoard, IList<Tile> tilesToBeRemoved) {
+            if (gameBoard == null) {
+                throw new ArgumentNullException("gameBoard");
+            }
+
+            if (tilesToBeRemoved == null) {
+                throw new ArgumentNullException("tilesToBeRemoved");
+            }
+
+            if (tilesToBeRemoved.Count == 0) {
+                return;
+            }
+
+            for (int i = 0; i < tilesToBeRemoved.Count; i++) {
+                gameBoard.RemoveTileFromSlot(tilesToBeRemoved[i].AssignedSlot, true);
             }
         }
 

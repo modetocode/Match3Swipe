@@ -14,7 +14,6 @@ namespace Modetocode.Swiper.Level.Data {
         public int RowCount { get; private set; }
         public IList<TileType> AvailableTileTypes { get; private set; }
         public IList<IList<Tile>> Tiles { get; private set; }
-        private IList<Tile> UnassignedTiles { get; set; }
 
         public GameBoard(int rowCount, int columnCount, IList<TileType> availableTileTypes) {
             if (rowCount <= 0) {
@@ -33,11 +32,9 @@ namespace Modetocode.Swiper.Level.Data {
             this.ColumnCount = columnCount;
             this.AvailableTileTypes = availableTileTypes;
             this.Tiles = new Tile[this.RowCount][];
-            for (int i = 0; i < this.ColumnCount; i++) {
+            for (int i = 0; i < this.RowCount; i++) {
                 this.Tiles[i] = new Tile[this.ColumnCount];
             }
-
-            this.UnassignedTiles = new List<Tile>();
         }
 
         public bool HasTileForSlot(Slot slot) {
@@ -45,7 +42,6 @@ namespace Modetocode.Swiper.Level.Data {
                 throw new ArgumentNullException("slot");
             }
 
-            //TODO there are also tiles that are still not set on the slot
             return this.Tiles[slot.RowIndex][slot.ColumnIndex] != null;
         }
 
@@ -54,77 +50,26 @@ namespace Modetocode.Swiper.Level.Data {
                 throw new ArgumentNullException("tile");
             }
 
-            this.UnassignedTiles.Add(tile);
+            this.Tiles[tile.AssignedSlot.RowIndex][tile.AssignedSlot.ColumnIndex] = tile;
             if (this.TileAdded != null) {
                 this.TileAdded(tile);
             }
         }
 
-        public void AssignTileToSlot(Tile tile, Slot slot) {
-            if (tile == null) {
-                throw new ArgumentNullException("tile");
-            }
-
-            if (slot == null) {
-                throw new ArgumentNullException("slot");
-            }
-
-            if (!this.UnassignedTiles.Contains(tile)) {
-                throw new InvalidOperationException("The tile wasn't previously added");
-            }
-
-            this.Tiles[slot.RowIndex][slot.ColumnIndex] = tile;
-        }
-
-        public void UnassignTileFromSlot(Slot slot) {
-            if (slot == null) {
-                throw new ArgumentNullException("slot");
-            }
-
-            Tile unassignedTile = this.Tiles[slot.RowIndex][slot.ColumnIndex];
-            this.Tiles[slot.RowIndex][slot.ColumnIndex] = null;
-            this.UnassignedTiles.Add(unassignedTile);
-        }
-
-        public void RemoveTileFromSlot(Slot slot) {
+        public void RemoveTileFromSlot(Slot slot, bool shouldDeleteTile) {
             if (slot == null) {
                 throw new ArgumentNullException("slot");
             }
 
             Tile removedTile = this.Tiles[slot.RowIndex][slot.ColumnIndex];
-            if (removedTile != null) {
-                this.Tiles[slot.RowIndex][slot.ColumnIndex] = null;
+            if (removedTile == null) {
+                return;
+            }
+
+            this.Tiles[slot.RowIndex][slot.ColumnIndex] = null;
+            if (shouldDeleteTile) {
                 removedTile.DeleteTile();
             }
-
-            for (int i = 0; i < this.UnassignedTiles.Count; i++) {
-                Tile currentTile = this.UnassignedTiles[i];
-                if (currentTile.AssignedSlot.Equals(slot)) {
-                    this.UnassignedTiles.RemoveAt(i);
-                    currentTile.DeleteTile();
-                    break;
-                }
-            }
-        }
-
-        public Slot GetSlotForTile(Tile tile) {
-            if (tile == null) {
-                throw new ArgumentNullException("tile");
-            }
-
-            for (int i = 0; i < this.RowCount; i++) {
-                for (int j = 0; j < this.ColumnCount; j++) {
-                    if (this.Tiles[i][j] == null) {
-                        continue;
-                    }
-
-                    if (this.Tiles[i][j].Equals(tile)) {
-                        return new Slot(i, j);
-                    }
-                }
-            }
-
-            return null;
         }
     }
 }

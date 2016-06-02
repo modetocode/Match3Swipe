@@ -16,7 +16,7 @@ namespace Modetocode.Swiper.Level {
 
         public LevelRunManager() {
             //TODO give the appropriate data for creation of game board
-            GameBoard gameBoard = GameBoardManager.CreateGameBoard(rowCount: 7, columnCount: 7, availableTileTypes: new TileType[] { TileType.Amber, TileType.Emerald, TileType.Prism });
+            GameBoard gameBoard = GameBoardManager.CreateGameBoard(rowCount: 7, columnCount: 7, availableTileTypes: new TileType[] { TileType.Amber, TileType.Emerald, TileType.Prism, TileType.Ruby, TileType.Sapphire });
             this.LevelRunModel = new LevelRunModel(gameBoard);
             this.Ticker = new Ticker(new ITickable[] { ObjectAnimator.Instance });
 
@@ -42,15 +42,9 @@ namespace Modetocode.Swiper.Level {
         public void FinishSelection() {
             TileSelection selection = this.LevelRunModel.TileSelection;
             IList<Tile> tilesToBeRemoved = selection.FinishSelection();
-            if (tilesToBeRemoved.Count == 0) {
-                return;
-            }
-
-            for (int i = 0; i < tilesToBeRemoved.Count; i++) {
-                this.LevelRunModel.GameBoard.RemoveTileFromSlot(tilesToBeRemoved[i].AssignedSlot);
-            }
-
-            GameBoardManager.FillAndAnimateBoard(this.LevelRunModel.GameBoard);
+            GameBoard gameBoard = this.LevelRunModel.GameBoard;
+            GameBoardManager.RemoveTilesFromBoard(gameBoard, tilesToBeRemoved);
+            GameBoardManager.FillAndAnimateBoard(gameBoard);
         }
 
         public void OnTickingFinished() {

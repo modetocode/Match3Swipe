@@ -23,7 +23,7 @@ namespace Modetocode.Swiper.Animations {
             this.ObjectToAnimate.Position = EndPosition;
         }
 
-        public MoveAnimation(Vector2 startPosition, Vector2 endPosition, float durationInSeconds, IPositionableObject objectToAnimate, Action onMovementFinishedAction)
+        public MoveAnimation(Vector2 startPosition, Vector2 endPosition, float durationInSeconds, IPositionableObject objectToAnimate, Action onMovementFinishedAction = null)
             : base(startPosition, endPosition, durationInSeconds, objectToAnimate, onMovementFinishedAction) {
 
             Vector2 distanceVector = endPosition - startPosition;

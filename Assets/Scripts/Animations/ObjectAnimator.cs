@@ -13,12 +13,9 @@ namespace Modetocode.Swiper.Animations {
 
         private IList<ObjectAnimation> activeAnimations;
 
-        public void AddObjectAnimation(Vector2 startPosition, Vector2 endPosition, float durationInSeconds, Action onPositionReachedAction, IPositionableObject positionableObject) {
+        public void AddObjectAnimation(Vector2 startPosition, Vector2 endPosition, float durationInSeconds, IPositionableObject positionableObject, Action onPositionReachedAction = null) {
             if (durationInSeconds <= 0) {
                 throw new ArgumentOutOfRangeException("durationInSeconds", "Cannot be zero or less.");
-            }
-            if (onPositionReachedAction == null) {
-                throw new ArgumentNullException("onPositionReachedAction");
             }
 
             if (positionableObject == null) {
