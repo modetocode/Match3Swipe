@@ -1,4 +1,5 @@
 ﻿using Modetocode.Swiper.Level.Data;
+using System;
 
 namespace Modetocode.Swiper.Level {
 
@@ -11,7 +12,10 @@ namespace Modetocode.Swiper.Level {
         public TileSelection TileSelection { get; private set; }
 
         public LevelRunModel(GameBoard gameBoard) {
-            //TODO arg check
+            if (gameBoard == null) {
+                throw new ArgumentNullException("gameBoard");
+            }
+
             this.GameBoard = gameBoard;
             this.TileSelection = new TileSelection();
         }

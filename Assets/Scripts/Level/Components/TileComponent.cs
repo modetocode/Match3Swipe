@@ -24,13 +24,19 @@ namespace Modetocode.Swiper.Level.Components {
         private Sprite sapphireSprite;
 
         public Tile Tile { get; private set; }
+        private Action<TileComponent> OnTileDestroyedAction { get; set; }
 
-        public void Initialize(Tile tile) {
+        public void Initialize(Tile tile, Action<TileComponent> onTileDestroyedAction) {
             if (tile == null) {
                 throw new ArgumentNullException("tile");
             }
 
+            if (onTileDestroyedAction == null) {
+                throw new ArgumentNullException("onTileDestroyedAction");
+            }
+
             this.Tile = tile;
+            this.OnTileDestroyedAction = onTileDestroyedAction;
             this.Tile.TileRemoved += DestroyComponent;
             this.SetTilePosition();
             this.SetTileSprite();
@@ -49,12 +55,13 @@ namespace Modetocode.Swiper.Level.Components {
                 return;
             }
 
-            this.Tile.TileRemoved -= DestroyComponent;
+            this.DestroyComponent();
         }
 
         private void DestroyComponent() {
             this.Tile.TileRemoved -= DestroyComponent;
-            Destroy(this.gameObject);
+            this.OnTileDestroyedAction(this);
+            this.Tile = null;
         }
 
         private void SetTileSprite() {
