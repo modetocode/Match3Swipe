@@ -13,6 +13,7 @@ namespace Modetocode.Swiper.Level.Data {
         public TileType TileType { get; private set; }
         public Vector2 Position { get; set; }
         public Slot AssignedSlot { get; set; }
+        public bool IsInSelection { get; set; }
 
         public Tile(TileType tileType, Slot assignedSlot) {
             if (assignedSlot == null) {
@@ -21,6 +22,7 @@ namespace Modetocode.Swiper.Level.Data {
 
             this.TileType = tileType;
             this.AssignedSlot = assignedSlot;
+            this.IsInSelection = false;
         }
 
         public void DeleteTile() {

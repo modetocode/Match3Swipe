@@ -40,6 +40,7 @@ namespace Modetocode.Swiper.Level.Data {
 
         private void AddTileToSequence(Tile tile) {
             this.TileSequence.Add(tile);
+            tile.IsInSelection = true;
             if (this.TileAdded != null) {
                 this.TileAdded(tile);
             }
@@ -48,6 +49,7 @@ namespace Modetocode.Swiper.Level.Data {
         private void ShortenSequence(Tile tile) {
             int index = this.TileSequence.IndexOf(tile);
             for (int i = this.TileSequence.Count - 1; i > index; i--) {
+                this.TileSequence[i].IsInSelection = false;
                 this.TileSequence.RemoveAt(i);
             }
 
@@ -71,6 +73,10 @@ namespace Modetocode.Swiper.Level.Data {
 
         public IList<Tile> FinishSelection() {
             IList<Tile> successfullSequence = (TileSequence.Count <= 2) ? new List<Tile>() : this.TileSequence;
+            for (int i = 0; i < this.TileSequence.Count; i++) {
+                this.TileSequence[i].IsInSelection = false;
+            }
+
             this.TileSequence = new List<Tile>();
             if (this.SelectionFinished != null) {
                 this.SelectionFinished();

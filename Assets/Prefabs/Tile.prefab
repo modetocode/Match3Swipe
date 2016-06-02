@@ -87,6 +87,15 @@ MonoBehaviour:
   prismSprite: {fileID: 21300000, guid: a3e7e75edeac21646bd4e72f97e284a0, type: 3}
   rubySprite: {fileID: 21300000, guid: e59e65d77c7ebb94a8d1931fbb4a2eb3, type: 3}
   sapphireSprite: {fileID: 21300000, guid: 0bf44055b138d1f478448576d1a41ac4, type: 3}
+  amberSelectedSprite: {fileID: 21300000, guid: df4f4df3b51da4b4b89a999e3243d576,
+    type: 3}
+  emeraldSelectedSprite: {fileID: 21300000, guid: c479ab8439c5e93478404a68bc4cfb0a,
+    type: 3}
+  prismSelectedSprite: {fileID: 21300000, guid: a3cf265b46ca92a4aa51a7dd511ea842,
+    type: 3}
+  rubySelectedSprite: {fileID: 21300000, guid: ce323775dd08dc541a7873a6c309ca85, type: 3}
+  sapphireSelectedSprite: {fileID: 21300000, guid: a548b1ef1dce9224094a07523ecb64e4,
+    type: 3}
 --- !u!212 &21282934
 SpriteRenderer:
   m_ObjectHideFlags: 1

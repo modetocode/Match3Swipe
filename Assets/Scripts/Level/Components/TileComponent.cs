@@ -22,6 +22,16 @@ namespace Modetocode.Swiper.Level.Components {
         private Sprite rubySprite;
         [SerializeField]
         private Sprite sapphireSprite;
+        [SerializeField]
+        private Sprite amberSelectedSprite;
+        [SerializeField]
+        private Sprite emeraldSelectedSprite;
+        [SerializeField]
+        private Sprite prismSelectedSprite;
+        [SerializeField]
+        private Sprite rubySelectedSprite;
+        [SerializeField]
+        private Sprite sapphireSelectedSprite;
 
         public Tile Tile { get; private set; }
         private Action<TileComponent> OnTileDestroyedAction { get; set; }
@@ -48,6 +58,7 @@ namespace Modetocode.Swiper.Level.Components {
             }
 
             this.SetTilePosition();
+            this.SetTileSprite();
         }
 
         public void Destroy() {
@@ -65,33 +76,45 @@ namespace Modetocode.Swiper.Level.Components {
         }
 
         private void SetTileSprite() {
-            Sprite sprite;
-
-            switch (this.Tile.TileType) {
-                case TileType.Amber:
-                    sprite = amberSprite;
-                    break;
-                case TileType.Emerald:
-                    sprite = emeraldSprite;
-                    break;
-                case TileType.Prism:
-                    sprite = prismSprite;
-                    break;
-                case TileType.Ruby:
-                    sprite = rubySprite;
-                    break;
-                case TileType.Sapphire:
-                    sprite = sapphireSprite;
-                    break;
-                default:
-                    throw new InvalidOperationException("Not supported tile type");
-            }
-
-            this.spriteRenderer.sprite = sprite;
+            this.spriteRenderer.sprite = this.Tile.IsInSelection ? this.GetSelectedTileSprite(this.Tile.TileType) : this.GetNotSelectedTileSprite(this.Tile.TileType);
         }
 
         private void SetTilePosition() {
             this.transform.position = this.Tile.Position;
+        }
+
+        private Sprite GetNotSelectedTileSprite(TileType tileType) {
+            switch (this.Tile.TileType) {
+                case TileType.Amber:
+                    return amberSprite;
+                case TileType.Emerald:
+                    return emeraldSprite;
+                case TileType.Prism:
+                    return prismSprite;
+                case TileType.Ruby:
+                    return rubySprite;
+                case TileType.Sapphire:
+                    return sapphireSprite;
+                default:
+                    throw new InvalidOperationException("Not supported tile type");
+            }
+        }
+
+        private Sprite GetSelectedTileSprite(TileType tileType) {
+            switch (this.Tile.TileType) {
+                case TileType.Amber:
+                    return amberSelectedSprite;
+                case TileType.Emerald:
+                    return emeraldSelectedSprite;
+                case TileType.Prism:
+                    return prismSelectedSprite;
+                case TileType.Ruby:
+                    return rubySelectedSprite;
+                case TileType.Sapphire:
+                    return sapphireSelectedSprite;
+                default:
+                    throw new InvalidOperationException("Not supported tile type");
+            }
         }
     }
 }
