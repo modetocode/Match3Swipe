@@ -14,6 +14,8 @@ namespace Modetocode.Swiper.Level.Components {
         private InputComponent inputComponent;
         [SerializeField]
         private TileSelectionComponent tileSelectionComponent;
+        [SerializeField]
+        private LevelRunCameraComponent levelRunCameraComponent;
 
         private LevelRunManager LevelRunManager { get; set; }
         private bool touchInProgress { get; set; }
@@ -27,6 +29,7 @@ namespace Modetocode.Swiper.Level.Components {
             this.inputComponent.TouchEnded += EndTouch;
             this.inputComponent.TouchHit += OnTouchHit;
             this.tileSelectionComponent.Initialize(this.LevelRunManager.LevelRunModel.TileSelection);
+            this.levelRunCameraComponent.Initialize(this.LevelRunManager.LevelRunModel.GameBoard);
         }
 
         private void InstantiateTile(Tile newTile) {
