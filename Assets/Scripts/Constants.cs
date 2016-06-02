@@ -10,6 +10,7 @@
 
         public static class LevelRun {
             public static float TileWorldSpaceSize = 1f;
+            public static float NoMoreMovesDetectorExecutionIntervalInSeconds = 1f;
         }
     }
 }

@@ -13,12 +13,14 @@ namespace Modetocode.Swiper.Level {
 
         private Ticker Ticker { get; set; }
         public LevelRunModel LevelRunModel { get; private set; }
+        private NoMoreMovesDetector NoMoreMovesDetector { get; set; }
 
         public LevelRunManager() {
             //TODO give the appropriate data for creation of game board
             GameBoard gameBoard = GameBoardManager.CreateGameBoard(rowCount: 7, columnCount: 7, availableTileTypes: new TileType[] { TileType.Amber, TileType.Emerald, TileType.Prism, TileType.Ruby, TileType.Sapphire });
             this.LevelRunModel = new LevelRunModel(gameBoard);
-            this.Ticker = new Ticker(new ITickable[] { ObjectAnimator.Instance });
+            this.NoMoreMovesDetector = new NoMoreMovesDetector(gameBoard);
+            this.Ticker = new Ticker(new ITickable[] { ObjectAnimator.Instance, this.NoMoreMovesDetector });
 
         }
 
