@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Modetocode.Swiper.PlayerGameData;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,8 @@ namespace Modetocode.Swiper.Level.Components {
         private Text scoreLabelText;
         [SerializeField]
         private Button startButton;
+        [SerializeField]
+        private Text highscoreLabelText;
 
         private LevelRunModel levelRunModel;
 
@@ -35,8 +38,13 @@ namespace Modetocode.Swiper.Level.Components {
                 throw new NullReferenceException("startButton reference is null");
             }
 
+            if (this.highscoreLabelText == null) {
+                throw new NullReferenceException("highscoreLabelText reference is null");
+            }
+
             this.startButton.onClick.AddListener(StartGame);
             this.levelRunComponent.LevelFinished += ShowStartButton;
+            this.levelRunComponent.LevelFinished += UpdateHighscore;
         }
 
         private void ShowStartButton() {
@@ -60,6 +68,7 @@ namespace Modetocode.Swiper.Level.Components {
         private void InitializeGUI() {
             this.levelRunComponent.Initialized -= InitializeGUI;
             this.levelRunModel = this.levelRunComponent.LevelRunModel;
+            this.UpdateHighscore();
         }
 
         public void Update() {
@@ -77,6 +86,12 @@ namespace Modetocode.Swiper.Level.Components {
 
         public void Destroy() {
             this.levelRunComponent.LevelFinished -= ShowStartButton;
+            this.levelRunComponent.LevelFinished -= UpdateHighscore;
+        }
+
+        private void UpdateHighscore() {
+            PlayerGameData.PlayerGameData gameData = GameDataManager.LoadGameData();
+            this.highscoreLabelText.text = gameData.Highscore.ToString();
         }
     }
 }

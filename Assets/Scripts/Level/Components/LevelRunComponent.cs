@@ -1,4 +1,5 @@
 ﻿using Modetocode.Swiper.Level.Data;
+using Modetocode.Swiper.PlayerGameData;
 using System;
 using UnityEngine;
 
@@ -106,12 +107,22 @@ namespace Modetocode.Swiper.Level.Components {
         }
 
         private void OnLevelFinishedHandler() {
+            this.UpdateHighscore();
             this.GameInProgress = false;
             this.TouchInProgress = false;
             this.UnsubsribeFromInputEvents();
             this.LevelRunManager.ResetData();
             if (this.LevelFinished != null) {
                 this.LevelFinished();
+            }
+        }
+
+        private void UpdateHighscore() {
+            PlayerGameData.PlayerGameData gameData = GameDataManager.LoadGameData();
+            float newScore = this.LevelRunModel.Score;
+            if (newScore > gameData.Highscore) {
+                gameData.Highscore = this.LevelRunModel.Score;
+                GameDataManager.SaveGameData(gameData);
             }
         }
 

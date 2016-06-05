@@ -1487,3 +1487,4 @@ MonoBehaviour:
   remainingTimeLabelText: {fileID: 514646438}
   scoreLabelText: {fileID: 1012435692}
   startButton: {fileID: 874704348}
+  highscoreLabelText: {fileID: 213128344}

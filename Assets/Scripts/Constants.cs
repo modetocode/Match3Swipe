@@ -18,5 +18,9 @@
             public static float TimeBonusIncreasePerNewTileInSeconds = 0.05f;
             public static float StartingLevelRemainingTimeInSeconds = 60f;
         }
+
+        public static class GameData {
+            public static string GameDataFileName = "gameData.gd";
+        }
     }
 }
