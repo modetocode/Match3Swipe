@@ -77,12 +77,15 @@ namespace Modetocode.Swiper.Level.Data {
                 this.TileSequence[i].IsInSelection = false;
             }
 
+            this.ClearSelection();
+            return successfullSequence;
+        }
+
+        public void ClearSelection() {
             this.TileSequence = new List<Tile>();
             if (this.SelectionFinished != null) {
                 this.SelectionFinished();
             }
-
-            return successfullSequence;
         }
     }
 }

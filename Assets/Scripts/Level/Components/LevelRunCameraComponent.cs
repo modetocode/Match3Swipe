@@ -26,7 +26,7 @@ namespace Modetocode.Swiper.Level.Components {
 
             float widthWorldSpace = gameBoard.ColumnCount * Constants.LevelRun.TileWorldSpaceSize;
             float heightWorldSpace = gameBoard.RowCount * Constants.LevelRun.TileWorldSpaceSize;
-            float heightCameraSize = heightWorldSpace * 0.5f;
+            float heightCameraSize = heightWorldSpace * 0.5f * (1 + Constants.LevelRun.HeaderAndFooterScreenSizePercentage);
             float widthCameraSize = (widthWorldSpace * 0.5f) / this.levelCamera.aspect;
             this.levelCamera.orthographicSize = Mathf.Max(heightCameraSize, widthCameraSize);
             Vector3 cameraPosition = new Vector3((gameBoard.ColumnCount - 1f) * 0.5f, (gameBoard.RowCount - 1f) * 0.5f, this.levelCamera.transform.position.z);

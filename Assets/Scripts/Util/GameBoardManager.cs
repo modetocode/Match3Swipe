@@ -73,6 +73,26 @@ namespace Modetocode.Swiper.Util {
             }
         }
 
+        public static void RemoveAllTilesFromBoard(GameBoard gameBoard) {
+            if (gameBoard == null) {
+                throw new ArgumentNullException("gameBoard");
+            }
+
+            IList<Tile> tilesToBeRemoved = new List<Tile>();
+            for (int i = 0; i < gameBoard.RowCount; i++) {
+                for (int j = 0; j < gameBoard.ColumnCount; j++) {
+                    Tile currentTile = gameBoard.Tiles[i][j];
+                    if (currentTile == null) {
+                        continue;
+                    }
+
+                    tilesToBeRemoved.Add(currentTile);
+                }
+            }
+
+            RemoveTilesFromBoard(gameBoard, tilesToBeRemoved);
+        }
+
         public static void RemoveTilesFromBoard(GameBoard gameBoard, IList<Tile> tilesToBeRemoved) {
             if (gameBoard == null) {
                 throw new ArgumentNullException("gameBoard");

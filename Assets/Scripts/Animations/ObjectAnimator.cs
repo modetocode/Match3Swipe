@@ -47,6 +47,10 @@ namespace Modetocode.Swiper.Animations {
         }
 
         public void OnTickingFinished() {
+            if (this.activeAnimations == null) {
+                return;
+            }
+
             for (int i = 0; i < this.activeAnimations.Count; i++) {
                 this.activeAnimations[i].AnimationFinised -= RemoveAnimation;
             }

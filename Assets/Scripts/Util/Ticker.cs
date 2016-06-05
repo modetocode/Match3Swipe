@@ -51,5 +51,9 @@ namespace Modetocode.Swiper.Util {
                 throw new InvalidOperationException("Ticking is already finished");
             }
         }
+
+        public void Reset() {
+            this.TickingFinished = false;
+        }
     }
 }

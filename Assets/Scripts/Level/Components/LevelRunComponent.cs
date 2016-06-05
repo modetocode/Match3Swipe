@@ -1,4 +1,5 @@
 ﻿using Modetocode.Swiper.Level.Data;
+using System;
 using UnityEngine;
 
 namespace Modetocode.Swiper.Level.Components {
@@ -7,6 +8,9 @@ namespace Modetocode.Swiper.Level.Components {
     /// Responsible for showing the logic on the screen.
     /// </summary>
     public class LevelRunComponent : MonoBehaviour {
+
+        public event Action Initialized;
+        public event Action LevelFinished;
 
         [SerializeField]
         private InstantiatorComponent instantiatorComponent;
@@ -17,19 +21,48 @@ namespace Modetocode.Swiper.Level.Components {
         [SerializeField]
         private LevelRunCameraComponent levelRunCameraComponent;
 
+        public bool IsInitialized { get; private set; }
+        public LevelRunModel LevelRunModel { get { return this.LevelRunManager.LevelRunModel; } }
+        public bool GameInProgress { get; private set; }
         private LevelRunManager LevelRunManager { get; set; }
-        private bool touchInProgress { get; set; }
+        private bool TouchInProgress { get; set; }
+
+        public void Awake() {
+            if (this.instantiatorComponent == null) {
+                throw new NullReferenceException("instantiatorComponent reference is null");
+            }
+
+            if (this.inputComponent == null) {
+                throw new NullReferenceException("inputComponent reference is null");
+            }
+
+            if (this.tileSelectionComponent == null) {
+                throw new NullReferenceException("tileSelectionComponent reference is null");
+            }
+
+            if (this.levelRunCameraComponent == null) {
+                throw new NullReferenceException("levelRunCameraComponent reference is null");
+            }
+        }
+
+        public void StartGame() {
+            this.LevelRunManager.Start();
+            this.GameInProgress = true;
+            this.SubscribeForInputEvents();
+        }
 
         public void Start() {
             this.LevelRunManager = new LevelRunManager();
-            this.LevelRunManager.LevelRunModel.GameBoard.TileAdded += InstantiateTile;
-            this.touchInProgress = false;
-            this.LevelRunManager.Start();
-            this.inputComponent.TouchStarted += StartTouch;
-            this.inputComponent.TouchEnded += EndTouch;
-            this.inputComponent.TouchHit += OnTouchHit;
-            this.tileSelectionComponent.Initialize(this.LevelRunManager.LevelRunModel.TileSelection);
-            this.levelRunCameraComponent.Initialize(this.LevelRunManager.LevelRunModel.GameBoard);
+            this.LevelRunManager.LevelFinished += OnLevelFinishedHandler;
+            this.LevelRunModel.GameBoard.TileAdded += InstantiateTile;
+            this.TouchInProgress = false;
+            this.GameInProgress = false;
+            this.tileSelectionComponent.Initialize(this.LevelRunModel.TileSelection);
+            this.levelRunCameraComponent.Initialize(this.LevelRunModel.GameBoard);
+            this.IsInitialized = true;
+            if (this.Initialized != null) {
+                this.Initialized();
+            }
         }
 
         private void InstantiateTile(Tile newTile) {
@@ -37,26 +70,33 @@ namespace Modetocode.Swiper.Level.Components {
         }
 
         public void Update() {
+            if (!this.GameInProgress) {
+                return;
+            }
+
             this.LevelRunManager.Tick(Time.deltaTime);
         }
 
         public void Destroy() {
-            this.LevelRunManager.LevelRunModel.GameBoard.TileAdded -= InstantiateTile;
-            this.inputComponent.TouchStarted -= StartTouch;
-            this.inputComponent.TouchEnded -= EndTouch;
-            this.inputComponent.TouchHit -= OnTouchHit;
+            this.LevelRunManager.LevelFinished -= OnLevelFinishedHandler;
+            this.LevelRunModel.GameBoard.TileAdded -= InstantiateTile;
+            this.UnsubsribeFromInputEvents();
         }
 
         private void StartTouch() {
-            this.touchInProgress = true;
+            this.TouchInProgress = true;
         }
 
         private void EndTouch() {
-            this.touchInProgress = false;
+            this.TouchInProgress = false;
             this.LevelRunManager.FinishSelection();
         }
 
         private void OnTouchHit(GameObject gameObject) {
+            if (!this.TouchInProgress) {
+                return;
+            }
+
             TileComponent tileComponent = gameObject.GetComponent<TileComponent>();
             if (tileComponent == null) {
                 return;
@@ -65,5 +105,26 @@ namespace Modetocode.Swiper.Level.Components {
             this.LevelRunManager.ProcessTileForSelection(tileComponent.Tile);
         }
 
+        private void OnLevelFinishedHandler() {
+            this.GameInProgress = false;
+            this.TouchInProgress = false;
+            this.UnsubsribeFromInputEvents();
+            this.LevelRunManager.ResetData();
+            if (this.LevelFinished != null) {
+                this.LevelFinished();
+            }
+        }
+
+        private void SubscribeForInputEvents() {
+            this.inputComponent.TouchStarted += StartTouch;
+            this.inputComponent.TouchEnded += EndTouch;
+            this.inputComponent.TouchHit += OnTouchHit;
+        }
+
+        private void UnsubsribeFromInputEvents() {
+            this.inputComponent.TouchStarted -= StartTouch;
+            this.inputComponent.TouchEnded -= EndTouch;
+            this.inputComponent.TouchHit -= OnTouchHit;
+        }
     }
 }
