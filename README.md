@@ -9,7 +9,19 @@ and running on an appropriate device.
 
 This is a demo game that was created in a very short period. Have fun, enjoy the game and feel free to write to me about any suggestions about the code structure or the game.
 
-## 1. Architecture
+[Download APK](https://www.dropbox.com/s/pt0p5539n72j6zx/2016.06.06.01%20match3swiper.apk?dl=0)
+
+## 1. Game description
+
+This is a match-3 based game where you need to connect more than 2 tiles with the same shape in a sequence. 
+
+<img src="/Screenshots/how_to_play.jpg" width="225" height="400">
+
+You have limited time and you get score for every sequence that you make. Also you get some bonus time for finishing a sequence of tiles. The more tiles there are in a sequence the more points and bonus time you score.
+
+When the time passes the highscore is updated if a new score has been set. The highscore will be saved even after exiting the game.
+
+## 2. Architecture
 
 The game currently has one feature: LevelRun that represents a demo level of a match-3 swiper game.
 
@@ -17,6 +29,7 @@ For this feature a variation of MVC pattern was used:
  - **LevelRunModel** (Model) - stores the data for the level run 
  - **LevelRunManager** (Controller) - updates the model, knows how to execute the logic flow of the level run
  - **LevelRunComponent** (Controller/View) - keeps and executes an instance of LevelRunManager, responsible for all the components that shows game objects in the scene based on the logic objects, handles input 
+ - **LevelRunGUIComponent** (View) - responsible for displaying the gui in the scene, gets the data from the model
 
 The manager handles the logic flow of the game by creating logic objects that can live without visual objects (Game Objects).
 The point is that each run can be executed independent of any visual representation. 
@@ -33,3 +46,33 @@ logic objects. For example, the fall (move) animation of a tile is done to a log
 Object pools were introduced for the objects that are dynamically instantiated multiple times during a level run. This was done to the tile objects, as 
 they are constantly destroyed and new tiles are spawned.
 
+## 3. Gameplay
+
+All of the game variables that affect the gameplay are tweakable via the Unity Inspector. Everything connected to the progression and gameplay can be tweaked by a person which is preferably a game designer, and doesn't need to be a developer.
+
+The tweakable variables can be found in the **Game Settings -> Game Constants** menu:
+
+![Image](/Screenshots/game_constants.jpg)
+
+## 4. Other
+
+### 4.1. Gameboard size
+
+The size of the board (number of rows x number of columns) can be changed and the board will be fully visible on a device. In order to achieve this, the camera was repositioned based on the size of the device and the size of the board. **LevelRunCameraComponent** script is responsible for achieveing this. 
+
+<img src="/Screenshots/screenshot1.jpg" width="225" height="400">
+<img src="/Screenshots/screenshot2.jpg" width="225" height="400">
+<img src="/Screenshots/screenshot3.jpg" width="225" height="400">
+<img src="/Screenshots/screenshot4.jpg" width="225" height="400">
+
+### 4.2. No more moves detector
+
+A situation when there are no more moves can happen. In that case a detector was developed that will activate on some time (currently 1 second) and randomly pop a tile.  
+
+### 4.3. Player game data
+
+The player game data currently is stored on the device and contains the highscore of the player. The file is serialized on disk when the game is saved, and deserialized when the game needs to be loaded.
+
+## 5. License
+
+The licence info can be found in the file [LICENSE.txt](/LICENSE.txt)
