@@ -9,13 +9,15 @@ and running on an appropriate device.
 
 This is a demo game that was created in a very short period. Have fun, enjoy the game and feel free to write to me about any suggestions about the code structure or the game.
 
-[Download APK](https://www.dropbox.com/s/pt0p5539n72j6zx/2016.06.06.01%20match3swiper.apk?dl=0)
+[Download APK with new GUI](https://www.dropbox.com/s/8vfjesa2imavtox/2016.06.06.02%20match3swiper.apk?dl=0)
+
+[Download APK with old GUI](https://www.dropbox.com/s/pt0p5539n72j6zx/2016.06.06.01%20match3swiper.apk?dl=0)
 
 ## 1. Game description
 
 This is a match-3 based game where you need to connect more than 2 tiles with the same shape in a sequence. 
 
-<img src="/Screenshots/how_to_play.jpg" width="225" height="400">
+<img src="/Screenshots/how_to_play.jpg" width="300">
 
 You have limited time and you get score for every sequence that you make. Also you get some bonus time for finishing a sequence of tiles. The more tiles there are in a sequence the more points and bonus time you score.
 
@@ -60,11 +62,11 @@ The tweakable variables can be found in the **Game Settings -> Game Constants** 
 
 The size of the board (number of rows x number of columns) can be changed and the board will be fully visible on a device. In order to achieve this, the camera was repositioned based on the size of the device and the size of the board. **LevelRunCameraComponent** script is responsible for achieveing this. 
 
-<img src="/Screenshots/screenshot1.jpg" width="225" height="400">
-<img src="/Screenshots/screenshot2.jpg" width="225" height="400">
-<img src="/Screenshots/screenshot3.jpg" width="225" height="400">
-<img src="/Screenshots/screenshot4.jpg" width="225" height="400">
-
+<img src="/Screenshots/screenshot1.jpg" width="250">
+<img src="/Screenshots/screenshot2.jpg" width="250">
+<img src="/Screenshots/screenshot3.jpg" width="250">
+<img src="/Screenshots/screenshot4.jpg" width="250">
+<img src="/Screenshots/screenshot5.jpg" width="250">
 ### 4.2. No more moves detector
 
 A situation when there are no more moves can happen. In that case a detector was developed that will activate on some time (currently 1 second) and randomly pop a tile.  
@@ -72,6 +74,12 @@ A situation when there are no more moves can happen. In that case a detector was
 ### 4.3. Player game data
 
 The player game data currently is stored on the device and contains the highscore of the player. The file is serialized on disk when the game is saved, and deserialized when the game needs to be loaded.
+
+### 4.4. UI
+
+The UI was done using the standard Unity UI.
+
+Acknowledgement: The design was created by [Stefan Tasevski](https://www.facebook.com/stefan.tase360)
 
 ## 5. License
 
