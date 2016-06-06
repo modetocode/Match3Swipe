@@ -101,7 +101,7 @@ Camera:
   m_GameObject: {fileID: 134152}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.1102941, g: 0.1102941, b: 0.1102941, a: 0.019607844}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -114,10 +114,10 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 3.5
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294967263
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
