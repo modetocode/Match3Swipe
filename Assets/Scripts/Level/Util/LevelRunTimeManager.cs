@@ -1,4 +1,5 @@
-﻿using Modetocode.Swiper.Util;
+﻿using Modetocode.Swiper.GameSettings;
+using Modetocode.Swiper.Util;
 using System;
 
 namespace Modetocode.Swiper.Level.Util {
@@ -52,7 +53,8 @@ namespace Modetocode.Swiper.Level.Util {
         }
 
         private void Initialize() {
-            this.RemainingTimeInSeconds = Constants.LevelRun.StartingLevelRemainingTimeInSeconds;
+            GameConstants gameConstants = GameSettingsManager.GetGameConstants();
+            this.RemainingTimeInSeconds = gameConstants.StartingLevelRemainingTimeInSeconds;
             this.HasTimePassed = false;
         }
     }

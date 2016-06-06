@@ -1,8 +1,9 @@
 ﻿using Modetocode.Swiper.Level.Data;
+using Modetocode.Swiper.Util;
 using System;
 using System.Collections.Generic;
 
-namespace Modetocode.Swiper.Util {
+namespace Modetocode.Swiper.Level.Util {
 
     /// <summary>
     /// Responsible for detecting if there are no more moves the player can make and starts popping random tiles.

@@ -1,4 +1,5 @@
-﻿using Modetocode.Swiper.Level.Data;
+﻿using Modetocode.Swiper.GameSettings;
+using Modetocode.Swiper.Level.Data;
 using Modetocode.Swiper.PlayerGameData;
 using System;
 using UnityEngine;
@@ -53,7 +54,8 @@ namespace Modetocode.Swiper.Level.Components {
         }
 
         public void Start() {
-            this.LevelRunManager = new LevelRunManager();
+            GameBoardSpec gameBoardSpec = GameSettingsManager.GetGameConstants().GameBoardSpec;
+            this.LevelRunManager = new LevelRunManager(gameBoardSpec);
             this.LevelRunManager.LevelFinished += OnLevelFinishedHandler;
             this.LevelRunModel.GameBoard.TileAdded += InstantiateTile;
             this.TouchInProgress = false;

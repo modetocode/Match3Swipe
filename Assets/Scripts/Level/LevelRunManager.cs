@@ -19,9 +19,12 @@ namespace Modetocode.Swiper.Level {
         private NoMoreMovesDetector NoMoreMovesDetector { get; set; }
         private LevelRunTimeManager levelRunTimeManager { get; set; }
 
-        public LevelRunManager() {
-            //TODO give the appropriate data for creation of game board
-            GameBoard gameBoard = GameBoardManager.CreateGameBoard(rowCount: 7, columnCount: 7, availableTileTypes: new TileType[] { TileType.Amber, TileType.Emerald, TileType.Prism, TileType.Ruby, TileType.Sapphire });
+        public LevelRunManager(GameBoardSpec gameBoardSpec) {
+            if (gameBoardSpec == null) {
+                throw new ArgumentNullException("gameBoardSpec");
+            }
+
+            GameBoard gameBoard = GameBoardManager.CreateGameBoard(gameBoardSpec);
             this.levelRunTimeManager = new LevelRunTimeManager();
             this.LevelRunModel = new LevelRunModel(gameBoard, this.levelRunTimeManager);
             this.NoMoreMovesDetector = new NoMoreMovesDetector(gameBoard);

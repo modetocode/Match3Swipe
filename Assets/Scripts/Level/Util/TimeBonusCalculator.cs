@@ -1,4 +1,5 @@
-﻿using Modetocode.Swiper.Level.Data;
+﻿using Modetocode.Swiper.GameSettings;
+using Modetocode.Swiper.Level.Data;
 using System;
 using System.Collections.Generic;
 
@@ -15,10 +16,11 @@ namespace Modetocode.Swiper.Level.Util {
             }
 
             float totalTimeBonus = 0;
-            float currentTileTimeBonus = Constants.LevelRun.BaseTimeBonusPerTileInSeconds;
+            GameConstants gameConstants = GameSettingsManager.GetGameConstants();
+            float currentTileTimeBonus = gameConstants.BaseTimeBonusPerTileInSeconds;
             for (int i = 0; i < tiles.Count; i++) {
                 totalTimeBonus += currentTileTimeBonus;
-                currentTileTimeBonus += Constants.LevelRun.TimeBonusIncreasePerNewTileInSeconds;
+                currentTileTimeBonus += gameConstants.TimeBonusIncreasePerNewTileInSeconds;
             }
 
             return totalTimeBonus;

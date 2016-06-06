@@ -4,26 +4,18 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Modetocode.Swiper.Util {
+namespace Modetocode.Swiper.Level.Util {
 
     /// <summary>
     /// Contains methods that are connected with game board.
     /// </summary>
     public static class GameBoardManager {
-        public static GameBoard CreateGameBoard(int rowCount, int columnCount, IList<TileType> availableTileTypes) {
-            if (rowCount <= 0) {
-                throw new ArgumentOutOfRangeException("rowCount", "Cannot be zero or less.");
+        public static GameBoard CreateGameBoard(GameBoardSpec gameBoardSpec) {
+            if (gameBoardSpec == null) {
+                throw new ArgumentNullException("gameBoardSpec");
             }
 
-            if (columnCount <= 0) {
-                throw new ArgumentOutOfRangeException("columnCount", "Cannot be zero or less.");
-            }
-
-            if (availableTileTypes == null) {
-                throw new ArgumentNullException("availableTileTypes");
-            }
-
-            return new GameBoard(rowCount, columnCount, availableTileTypes);
+            return new GameBoard(gameBoardSpec.RowCount, gameBoardSpec.ColumnCount, gameBoardSpec.AvailableTileTypes);
         }
 
         public static void FillAndAnimateBoard(GameBoard gameBoard) {

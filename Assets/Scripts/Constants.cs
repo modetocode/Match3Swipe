@@ -5,22 +5,26 @@
     /// </summary>
     public static class Constants {
         public static class Animation {
-            public static float TileMoveAnimationDurationInSeconds = 0.5f;
+            public const float TileMoveAnimationDurationInSeconds = 0.5f;
         }
 
         public static class LevelRun {
-            public static float TileWorldSpaceSize = 1f;
-            public static float HeaderAndFooterScreenSizePercentage = 0.25f;
-            public static float NoMoreMovesDetectorExecutionIntervalInSeconds = 1f;
-            public static float BaseScorePerTile = 10;
-            public static float ScoreIncreasePerNewTile = 5;
-            public static float BaseTimeBonusPerTileInSeconds = 0.1f;
-            public static float TimeBonusIncreasePerNewTileInSeconds = 0.05f;
-            public static float StartingLevelRemainingTimeInSeconds = 60f;
+            public const float TileWorldSpaceSize = 1f;
+            public const float HeaderAndFooterScreenSizePercentage = 0.25f;
+            public const float NoMoreMovesDetectorExecutionIntervalInSeconds = 1f;
         }
 
         public static class GameData {
-            public static string GameDataFileName = "gameData.gd";
+            public const string GameDataFileName = "gameData.gd";
+        }
+
+        public static class GameSettings {
+            public const string GameConstantsAssetName = "GameConstants";
+            public const string AssetsExtension = ".asset";
+            public const string ResourcesPath = "Assets/Resources/";
+            public const string GameSettingsRelativePath = "GameSettings/";
+            public const string GameSettingsMenuName = "Game Settings";
+            public const string GameConstantsMenuName = "Game Constants";
         }
     }
 }
